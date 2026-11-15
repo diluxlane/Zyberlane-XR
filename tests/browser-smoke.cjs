@@ -72,12 +72,12 @@ async function main() {
 
       if(v.name==='desktop' || v.name==='mobile') {
         await page.locator('#localFile').setInputFiles(videoFile);
-        await page.waitForFunction(() => !document.querySelector('#playPause').disabled, {timeout:10000});
+        await page.waitForFunction(() => !document.querySelector('#playPause').disabled, null, {timeout:10000});
         assert.equal(await page.locator('#empty').isVisible(),false,v.name+' empty state remains after video loaded');
         await page.locator('#playPause').click();
         await page.waitForTimeout(180);
         assert.equal(await page.locator('#sourceVideo').evaluate(el=>el.paused),false,v.name+' play did not start');
-        await page.locator('#projection').selectOption('360').catch(()=>null);
+        if (!(await page.locator('#projection').isDisabled())) await page.locator('#projection').selectOption('360');
         await page.screenshot({path:outDir+'/'+v.name+'-loaded.png',fullPage:true});
       }
       assert.equal(errors.length,0,v.name+' browser errors: '+errors.join('\n'));
