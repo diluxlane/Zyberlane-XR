@@ -88,3 +88,10 @@ test('stage controls and the warning language remain accessible and honest', () 
   assert.match(css, /\.theater\.vr-active/);
   assert.doesNotMatch(html, /Explore our VR headset/);
 });
+
+test('removed 3D headset model page cannot be linked or served', () => {
+  assert.equal(fs.existsSync(path.join(__dirname, '..', 'hardware', 'index.html')), false);
+  assert.doesNotMatch(html, /hardware\/index\.html|View 3D concept|headset model preview/i);
+  assert.match(html, /id="enterVr"/, 'functional VR box mode must stay');
+  assert.match(html, /id="theater"/, 'video theater must stay');
+});
