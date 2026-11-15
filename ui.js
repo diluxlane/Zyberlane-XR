@@ -72,8 +72,17 @@
   };
   function maybeCloseLink() {
     const input = $('videoUrl');
-    if (input && validDirectUrl(input.value)) closeDialog('linkDialog');
+    const feedback = $('linkError');
+    if (!input || !feedback) return;
+    const valid = validDirectUrl(input.value);
+    feedback.hidden = valid;
+    feedback.textContent = valid ? '' : 'Enter a direct HTTPS video URL. Regular website and YouTube watch links cannot be opened here.';
+    if (valid) closeDialog('linkDialog');
   }
+  $('videoUrl')?.addEventListener('input', () => {
+    const feedback = $('linkError');
+    if (feedback) { feedback.hidden = true; feedback.textContent = ''; }
+  });
   // Registered after app.js, so it never replaces its actual URL validation.
   $('loadUrl')?.addEventListener('click', maybeCloseLink);
   $('videoUrl')?.addEventListener('keydown', event => {
