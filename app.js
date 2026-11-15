@@ -279,6 +279,7 @@ function setSource(src, label, fromUrl=false) {
   state.hasVideo = false;
   state.textureError = false;
   $('empty').hidden = false;
+  for (const id of ['playPause','mute','seek']) $(id).disabled = true;
   $('fileName').textContent = label;
   video.src = src;
   video.load();
@@ -507,7 +508,13 @@ video.addEventListener('loadedmetadata',async()=>{
   refreshPlayback();
   notify(`Video ready (${video.videoWidth} × ${video.videoHeight}). Press Play. ${state.projection==='cinema' ? 'Normal video mode is selected.' : 'Ensure the video was recorded in your selected panoramic format.'}`);
 });
-video.addEventListener('error',()=>{state.hasVideo=false;notify('Could not load this video. Check the file/URL, browser codec support, HTTPS, and CORS for remote sources.','error');});
+video.addEventListener('error',()=>{
+  state.hasVideo=false;
+  $('empty').hidden=false;
+  for (const id of ['playPause','mute','seek']) $(id).disabled=true;
+  $('liveLabel').textContent='VIDEO UNAVAILABLE';
+  notify('Could not open this video. Try a compatible local MP4, or check the direct URL and CORS settings.','error');
+});
 video.addEventListener('timeupdate',refreshPlayback);
 video.addEventListener('durationchange',refreshPlayback);
 video.addEventListener('play',refreshPlayback);
@@ -523,6 +530,9 @@ catch(err) {
   // Safe degradation: native flat video rather than a blank screen.
   theater.classList.add('fallback');
   theater.insertBefore(video, canvas.nextSibling);
-  $('enterVr').disabled = true;
-  notify(`VR renderer unavailable: ${err.message} The player can still show normal video, but not VR.`, 'warn');
+  state.projection='cinema';
+  $('projection').value='cinema';
+  for (const id of ['enterVr','projection','layout','enableMotion','recenter','fov','smooth']) $(id).disabled = true;
+  updateModeLabel();
+  notify(`Immersive viewing is unavailable: ${err.message}. You can still play a normal video using the controls below.`, 'warn');
 }
