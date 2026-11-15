@@ -4,6 +4,22 @@ An original, self-contained, dependency-free prototype for watching browser-supp
 
 **Status: experimental, not a production/comfort-validated Android VR app.** Its head tracking depends on *actual* browser orientation readings. **It has no real eye tracking**; the crosshair is a head-gaze reference only.
 
+## Zyberlane XR visual-system rebuild — November 15, 2026
+
+The frontend now follows the **current Zyberlane company website's editorial design language**, with the original XR player functions and source code preserved:
+
+- **Brand:** the company's ZL vector mark from `diluxlane/Zyberlane-Website-New/dist/assets/zyberlane/logo-white.svg`, the Zyberlane XR wordmark, and the approved “Built Beyond Boundaries” line.
+- **Color:** shared source tokens `#000`, `#060606`, `#0d0d0d`, `#141414`, off-white `#f4f4f2` and neutral translucent border grays, with no neon accent.
+- **Typography:** the **actual Inter Tight WOFF2 files** from the approved website are now **self-hosted** in `assets/` (OFL license copied as `assets/Inter-Tight-OFL.txt`). Local Helvetica Neue and normal system fallbacks preserve the approved typography stack.
+- **Layout:** a full editorial landing section, studio viewport, playback bar, three-step controls workspace, capability/honesty section, next-project section and restrained footer.
+- **Animation:** section reveal on intersection, rolling text on hover, a muted scrolling typography strip, slow orbit decoration, softened button transitions and reduced-motion overrides. These follow the *design vocabulary* of the main website; the original TESERACT intro and page-transition engine was **not transplanted** because it belongs to a different DOM structure and could interfere with WebGL, permissions and fullscreen.
+- **Actual VR engine:** `app.js` remains separate and unmodified by this visual redesign. Existing player element IDs, local/remote media, projection, stereo, gyro, drag, recenter, seek, audio, fullscreen fallback, VR mode and WebGL handling remain wired to it. `design.js` adds only presentation animations and avoids transforming/clipping the video stage during fullscreen.
+- **Source provenance:** logo/vector and licensed font assets were copied from the owner's approved Zyberlane repo; the 3D logo asset is a retained optional illustration. No TESERACT client's photographs, videos, or third-party imagery were imported.
+
+**Limitations:** This is code-level brand fidelity, not an exact duplication of the company website's distinct animations, and not independently screenshot-compared in a physical browser. Final UI testing must cover mobile, tablet and desktop, an actual WebGL video, safe fullscreen transitions, device rotation, orientation permission, connected headphones and reduced motion. The product is still experimental; no promise of universally accurate gyro-free motion, real eye tracking, calibrated headset optics or manufacturing is made.
+
+See `DESIGN-IMPLEMENTATION.md` for the element-by-element mapping and QA acceptance criteria. All tests remain available through `node --check app.js`, `node --check design.js`, and `node --test tests/*.test.cjs`.
+
 ## Features
 
 - Video files via device picker. The file is accessed through a temporary `blob:` URL; no upload, server backend, or analytics.
