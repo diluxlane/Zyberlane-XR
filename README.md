@@ -89,7 +89,7 @@ Official A-Frame public 360° test media: `https://cdn.aframe.io/360-video-boile
 
 ## Zyberlane XR foundation update — November 15, 2026
 
-The code now uses **Zyberlane XR** in the main page title, header and footer without changing the experimental player architecture. The hardware-model link is described as a **conceptual 3D headset preview**, not as a Zyberlane-manufactured or commercially available headset. The separate `hardware/` experience remains a visualization only.
+The code now uses **Zyberlane XR** in the main page title, header and footer without changing the experimental player architecture. The standalone 3D headset concept-model page and its link have been removed. The experimental video player, including the phone VR box mode, remains available.
 
 ### Fullscreen and interaction
 
