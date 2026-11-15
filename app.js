@@ -323,8 +323,8 @@ async function playPause() {
 }
 function syncFullscreenUI() {
   const expanded = state.simulatedFullscreen || document.fullscreenElement === theater;
-  const exitControl = $('exitFullscreenOverlay');
-  if (exitControl) exitControl.hidden = !expanded || state.headset;
+  const controls = $('expandedControls');
+  if (controls) controls.hidden = !expanded || state.headset;
   const button = $('fullscreen');
   button.setAttribute('aria-pressed', String(expanded || state.headset));
   button.setAttribute('aria-label', expanded || state.headset ? 'Exit expanded viewing' : 'Expand video fullscreen');
@@ -473,6 +473,8 @@ $('enterVr').addEventListener('click',()=>setHeadset(true));
 $('hudExit').addEventListener('click',()=>setHeadset(false));
 $('fullscreen').addEventListener('click',toggleFullscreen);
 $('exitFullscreenOverlay').addEventListener('click',toggleFullscreen);
+$('expandedPlay').addEventListener('click',playPause);
+$('expandedMute').addEventListener('click',()=>{video.muted=!video.muted;refreshPlayback();});
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && state.simulatedFullscreen) setSimulatedFullscreen(false); });
 document.addEventListener('fullscreenchange', () => {
   if (!document.fullscreenElement && state.headset) {
