@@ -111,3 +111,19 @@ python3 -m http.server 8000
 ```
 
 Before release: test local MP4 audio through speaker/headphones, native versus CSS-expanded fullscreen, portrait/landscape orientation changes, stable recentering, gesture touch fallback, WebGL availability, remote CORS errors, and exit from both normal and headset modes on real Android/iOS devices. Confirm that expanded mode does not block browser navigation or access to exit controls. **Do not merge based on simulated tests alone** if these behaviors are considered release blockers.
+
+
+## Unified Zyberlane identity (November 15, 2026)
+
+The XR product is part of the **ZYBERLANE — CREATIVE TECHNOLOGY COMPANY** umbrella, with the exact approved brand descriptor and **Built Beyond Boundaries.** tagline. This does not assert corporate registration; Zyberlane operates as an unregistered independent business in Sri Lanka.
+
+The header and footer both display the approved ZL icon alongside the **new original geometric vector ZYBERLANE wordmark**, not ordinary Inter Tight lettering or a copy of the TESERACT logo. The icon, wordmark and icon+descriptor lockup are self-contained files:
+
+- `assets/zyberlane-mark.svg`
+- `assets/zyberlane-wordmark.svg`
+- `assets/zyberlane-lockup.svg`
+- `brand/identity.json` — portable source of truth for palette, typography, easing, company descriptor and tagline.
+
+These wordmark assets are **byte-identical** copies from `diluxlane/Zyberlane-Website-New` at the shared branding PR stage, so XR is consistent even without a network request to the main website. Continue to use the original site color palette and restrained scroll animations. Do not introduce external logo fonts or alter VR engine behavior for brand effects.
+
+Future Creative Lab and other products should use the same vector assets and portable brand manifest; **there is currently no `diluxlane/Zyberlane-Creative-Lab` repository to update**. Brand implementation for an eventual Lab must be separately tested and approved.
