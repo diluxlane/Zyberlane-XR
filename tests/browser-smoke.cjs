@@ -60,7 +60,7 @@ async function main() {
       await page.locator('#openSettings').click();
       assert.ok(await page.locator('#settingsDialog').evaluate(el=>el.open),v.name+' settings did not open');
       assert.equal(await page.locator('#layout').inputValue(),'mono');
-      await page.locator('[data-close-dialog="settingsDialog"]').click();
+      await page.locator('[data-close-dialog="settingsDialog"]').first().click();
       assert.equal(await page.locator('#settingsDialog').evaluate(el=>el.open),false);
 
       await page.locator('#openLink').click();
