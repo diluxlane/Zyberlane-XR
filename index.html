@@ -154,6 +154,7 @@
       <input id="videoUrl" type="url" inputmode="url" placeholder="https://example.com/video.mp4" spellcheck="false" autocomplete="off" aria-describedby="linkTip">
     </label>
     <p class="field-note" id="linkTip">MP4 and WebM may work when the host supports CORS. Local files usually work more reliably.</p>
+    <p id="linkError" class="field-error" role="alert" hidden></p>
     <button id="loadUrl" class="primary-button" type="button">Open video <span aria-hidden="true">↗</span></button>
     <span class="file-name" id="fileName" aria-live="polite">No video selected</span>
   </dialog>
