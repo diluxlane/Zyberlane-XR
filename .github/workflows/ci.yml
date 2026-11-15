@@ -41,6 +41,10 @@ jobs:
         run: npm install --no-save --no-fund --no-audit playwright@1.55.0
       - name: Install headless Chromium
         run: npx playwright install --with-deps chromium
+      - name: Install fixture encoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
       - name: Generate local browser-supported video fixture
         run: |
           ffmpeg -hide_banner -loglevel error -y -f lavfi -i color=c=gray:s=160x90:r=12 -t 3 -c:v libvpx -b:v 140k /tmp/zyberlane-xr-test.webm
