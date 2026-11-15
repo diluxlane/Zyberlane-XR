@@ -95,3 +95,24 @@ test('removed 3D headset model page cannot be linked or served', () => {
   assert.match(html, /id="enterVr"/, 'functional VR box mode must stay');
   assert.match(html, /id="theater"/, 'video theater must stay');
 });
+
+
+test('unified Zyberlane identity appears in XR header, metadata and footer', () => {
+  assert.match(html, /class="brand__wordmark" src="\.\/assets\/zyberlane-wordmark\.svg"/);
+  assert.match(html, /class="brand__descriptor">CREATIVE TECHNOLOGY COMPANY/);
+  assert.match(html, /class="footer-brand__wordmark" src="\.\/assets\/zyberlane-wordmark\.svg"/);
+  assert.match(html, /class="footer-brand__descriptor">CREATIVE TECHNOLOGY COMPANY/);
+  assert.match(html, /<meta name="application-name" content="Zyberlane \| Creative Technology Company">/);
+  assert.match(html, /<meta property="og:site_name" content="Zyberlane \| Creative Technology Company">/);
+  assert.match(html, /BUILT BEYOND BOUNDARIES\./);
+  assert.doesNotMatch(html, /class="brand__name"/);
+  assert.match(css, /ZYBERLANE FAMILY IDENTITY/);
+  assert.match(css, /site-header \.brand__descriptor/);
+  assert.match(css, /site-footer \.footer-brand__descriptor/);
+  const wordmark = read('assets/zyberlane-wordmark.svg');
+  const lockup = read('assets/zyberlane-lockup.svg');
+  assert.equal((wordmark.match(/data-glyph="/g) || []).length, 9);
+  assert.match(lockup, /CREATIVE TECHNOLOGY COMPANY/);
+  assert.match(read('assets/zyberlane-mark.svg'), /viewBox="0 0 100 100"/);
+  assert.match(html, /id="enterVr"/, 'VR functionality remains present');
+});

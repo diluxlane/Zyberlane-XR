@@ -343,3 +343,40 @@ html.has-js [data-reveal].is-visible{opacity:1;transform:none}
    playback. The presentation script keeps this class in sync with VR state. */
 html.xr-expanded .stage-frame{overflow:visible!important;transform:none!important;position:relative;z-index:999}
 html.xr-expanded .theater{opacity:1!important;transform:none!important}
+
+
+/* ZYBERLANE FAMILY IDENTITY — same original wordmark+mark as the company site.
+   Header and footer keep the shared descriptor on all viewport sizes. */
+.site-header .brand{gap:10px}
+.site-header .brand__identity{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:5px;min-width:0}
+.site-header .brand__wordmark{display:block;width:clamp(120px,12.5vw,180px);height:auto;aspect-ratio:916/100}
+.site-header .brand__descriptor{font-size:clamp(5px,.58vw,8px);line-height:1.1;font-weight:520;letter-spacing:.17em;color:var(--ink-2);white-space:nowrap}
+.site-header .brand__division{padding-left:11px}
+.site-footer .footer-brand{display:inline-flex;align-items:center;gap:13px;max-width:100%}
+.site-footer .footer-brand__mark{width:36px;height:36px;flex:none}
+.site-footer .footer-brand__identity{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-width:0}
+.site-footer .footer-brand__wordmark{width:clamp(180px,22vw,260px);height:auto;aspect-ratio:916/100}
+.site-footer .footer-brand__descriptor{color:var(--muted-strong);font-size:clamp(7px,.78vw,10px);font-weight:500;letter-spacing:.18em;line-height:1.2;white-space:nowrap}
+.site-footer .footer-brand__division{padding-left:12px;border-left:1px solid var(--line-3);font-size:13px;letter-spacing:.02em;color:var(--muted-strong)}
+@media(max-width:800px){
+  .site-header .brand__wordmark{width:clamp(126px,18vw,156px)}
+  .site-header .brand__descriptor{font-size:6px;letter-spacing:.1em}
+  .site-footer .footer-brand__wordmark{width:clamp(170px,32vw,235px)}
+  .site-footer .footer-brand__descriptor{font-size:clamp(7px,1.15vw,9px);letter-spacing:.12em}
+}
+@media(max-width:620px){
+  .site-header:after{content:none}
+  .site-header .brand__wordmark{width:clamp(115px,34vw,152px)}
+  .site-header .brand__descriptor{font-size:clamp(5px,1.4vw,6px);letter-spacing:.075em}
+  .site-header .brand__division{font-size:11px;padding-left:8px}
+  .site-footer .footer-brand{gap:10px}
+  .site-footer .footer-brand__mark{width:30px;height:30px}
+  .site-footer .footer-brand__wordmark{width:clamp(156px,45vw,215px)}
+  .site-footer .footer-brand__descriptor{font-size:clamp(6px,1.6vw,9px);letter-spacing:.08em}
+}
+@media(max-width:360px){
+  .site-header .brand{gap:7px}
+  .site-header .brand__wordmark{width:110px}
+  .site-header .brand__descriptor{font-size:5px;letter-spacing:.05em}
+  .site-footer .footer-brand__wordmark{width:145px}
+}
