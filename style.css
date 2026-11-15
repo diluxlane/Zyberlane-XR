@@ -281,3 +281,5 @@ html.has-js [data-reveal].is-visible{opacity:1;transform:none}
 /* ZYBERLANE FAMILY IDENTITY — exact same umbrella wordmark and descriptor */
 .site-header .brand__descriptor{color:var(--ink-2)}
 .site-footer .footer-brand__descriptor{color:var(--ink-2)}
+
+.field-error{margin:9px 0;font-size:12px;line-height:1.5;color:#f5cbc9}.field-error[hidden]{display:none}
