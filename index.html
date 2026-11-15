@@ -6,27 +6,27 @@
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="MotionVR — Private VR Video Player">
+  <meta property="og:title" content="Zyberlane XR — Experimental Immersive Video Player">
   <meta property="og:description" content="A free, privacy-first experimental VR video player for mobile browsers. Play local videos, test device orientation, and explore 180°/360° modes.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <meta name="description" content="Private, free browser VR video player with motion-based head orientation, local files, and direct video links.">
-  <title>MotionVR — Private VR Video Player</title>
+  <meta name="description" content="Zyberlane XR is a private, experimental browser 2D, 180° and 360° video viewer with optional motion orientation, touch fallback and phone headset mode.">
+  <title>Zyberlane XR — Experimental Immersive Video Player</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <div class="logo"><span class="logo-emblem" aria-hidden="true">◉</span><span>MOTION<span class="logo-accent">VR</span></span></div>
+      <div class="logo"><span class="logo-emblem" aria-hidden="true">◉</span><span>ZYBERLANE<span class="logo-accent"> XR</span></span></div>
       <span class="head-tag">PRIVATE BY DESIGN <span class="dot">·</span> FREE PROTOTYPE</span>
     </header>
 
     <main>
       <section class="intro">
-        <div class="eyebrow"><span class="pulse"></span> VR WITHOUT A GYROSCOPE — EXPERIMENTAL</div>
+        <div class="eyebrow"><span class="pulse"></span> BROWSER XR · SENSOR OR TOUCH CONTROLS</div>
         <h1>Look around. <span>Stay immersed.</span></h1>
         <p>Watch your own videos in a virtual cinema or a 360° scene. Uses your browser's available orientation data, with touch as a fallback. No login, upload, or tracking scripts.</p>
-        <a class="button primary hardware-preview-link" href="./hardware/index.html" target="_blank" rel="noopener noreferrer" aria-label="Open interactive 3D headset preview in a new tab">◈ Explore our VR headset in 3D <span aria-hidden="true">↗</span></a>
+        <a class="button primary hardware-preview-link" href="./hardware/index.html" target="_blank" rel="noopener noreferrer" aria-label="Open conceptual 3D headset model preview in a new tab">◈ Explore a 3D headset concept <span aria-hidden="true">↗</span></a>
       </section>
 
       <section class="theater" id="theater" aria-label="VR player">
@@ -43,6 +43,7 @@
           <button class="hud-button" id="hudCenter" title="Recenter view" aria-label="Recenter view">⊙</button>
           <button class="hud-button" id="hudExit" title="Exit headset mode" aria-label="Exit headset mode">×</button>
         </div>
+        <button id="exitFullscreenOverlay" class="exit-fullscreen-overlay" type="button" aria-label="Exit expanded video view" hidden>✕ Exit expanded view</button>
         <div class="overlay-bottom">
           <span class="live-label" id="liveLabel"><i></i> AWAITING VIDEO</span>
           <span class="mode-label" id="modeLabel">CINEMA / MONO</span>
@@ -97,7 +98,7 @@
 
       <section class="info"><h3>What this player can — and cannot — do</h3><div class="info-grid"><div><b>✓</b><span>Private local files and direct video links</span></div><div><b>✓</b><span>360° viewing, 180° and stereo headset layouts</span></div><div><b>✓</b><span>Browser sensor tracking where available; touch fallback</span></div><div><b>!</b><span>No real eye tracking; center reticle is head-gaze only</span></div><div><b>!</b><span>Not all browsers expose compass heading without a gyro</span></div><div><b>!</b><span>No YouTube page URLs, DRM, arbitrary websites or guaranteed MKV codecs</span></div></div></section>
     </main>
-    <footer>MotionVR · Experimental source-available prototype · No ads · No analytics · Video data is never uploaded by this app</footer>
+    <footer>Zyberlane XR · Experimental source-available prototype · No ads · No analytics · Local video files are not uploaded by this app</footer>
   </div>
   <video id="sourceVideo" playsinline preload="metadata" crossorigin="anonymous"></video>
   <script src="./app.js" defer></script>
