@@ -10,7 +10,7 @@ Stage: engineering review, **not** validated on physical headsets.
 | Item | Change | Validation |
 | --- | --- | --- |
 | Identity | MotionVR public-facing labels → Zyberlane XR | HTML and README source review |
-| Hardware concept | CTA explicitly says 3D headset concept, not manufactured headset | Source review |
+| Hardware concept | Standalone 3D headset model page and CTA removed; VR box playback retained | Source/route review |
 | Phone normal fullscreen | Native Fullscreen API where allowed, otherwise CSS expanded view with visible exit | Regression contract and real-phone QA pending |
 | In-view controls | Expanded video has play/pause, mute/unmute and exit | Static contract and mobile QA pending |
 | VR box | Retains split-screen and landscape-lock request; truthful fallback messaging | Real phone testing pending |
