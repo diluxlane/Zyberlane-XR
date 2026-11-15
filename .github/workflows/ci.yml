@@ -1,4 +1,4 @@
-name: MotionVR checks
+name: Zyberlane XR checks
 on:
   push:
     branches: [main]

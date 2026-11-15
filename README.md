@@ -1,4 +1,4 @@
-# MotionVR — Free experimental browser VR video player
+# Zyberlane XR — Experimental immersive browser video player
 
 An original, self-contained, dependency-free prototype for watching browser-supported videos in a simulated VR cinema, 180° or 360° equirectangular scene, optionally split into two eyes for a generic phone VR box.
 
@@ -51,7 +51,7 @@ MIT. This prototype is provided AS IS, without warranty, and is not a certified 
 
 ## Deployment
 
-**Recommended:** a separate public `diluxlane/MotionVR` repository and a Vercel static project. The files are at the root. Import into Vercel with framework **Other** and **no build command**, then deploy. The `vercel.json` file sets privacy-oriented headers without disabling browser motion sensors. The default `.vercel.app` domain provides HTTPS.
+**Recommended:** the existing public `diluxlane/Zyberlane-XR` repository and a separate Vercel static project. The files are at the root. Import into Vercel with framework **Other** and **no build command**, then deploy. The `vercel.json` file sets privacy-oriented headers without disabling browser motion sensors. The default `.vercel.app` domain provides HTTPS.
 
 Do not add third-party tracking, upload endpoints, or undocumented remote proxies. Do not advertise real eye tracking or gyroscope-equivalent tracking until hardware-validated. Do not confuse the interface's head-gaze crosshair with optical eye tracking.
 
@@ -67,6 +67,31 @@ If implemented, require an explicit on/off permission gesture, capture no audio,
 
 ## Full immersive 360° (no virtual cinema screen)
 
-MotionVR defaults to **Immersive 360°** instead of Virtual Cinema. Use an actual equirectangular 360° MP4/WebM (typically approximately 2:1 for monoscopic footage), and select **Video projection → Immersive 360° — inside the video**. Choose **Normal 2D (mono)** for a regular panoramic video; VR Box Mode duplicates the same surround view for both eyes. This is 3DoF rotational viewing, not stereo depth or physical movement through the filmed scene. Ordinary flat videos cannot be made genuinely 360° by changing modes: select **Virtual cinema — floating screen** for those. The VR shader and sensor tracking are unchanged by this default-mode improvement.
+Zyberlane XR defaults to **Immersive 360°** instead of Virtual Cinema. Use an actual equirectangular 360° MP4/WebM (typically approximately 2:1 for monoscopic footage), and select **Video projection → Immersive 360° — inside the video**. Choose **Normal 2D (mono)** for a regular panoramic video; VR Box Mode duplicates the same surround view for both eyes. This is 3DoF rotational viewing, not stereo depth or physical movement through the filmed scene. Ordinary flat videos cannot be made genuinely 360° by changing modes: select **Virtual cinema — floating screen** for those. The VR shader and sensor tracking are unchanged by this default-mode improvement.
 
 Official A-Frame public 360° test media: `https://cdn.aframe.io/360-video-boilerplate/video/city.mp4`. The asset project documents CORS-enabled serving, but compatibility should still be checked on each device.
+
+## Zyberlane XR foundation update — November 15, 2026
+
+The code now uses **Zyberlane XR** in the main page title, header and footer without changing the experimental player architecture. The hardware-model link is described as a **conceptual 3D headset preview**, not as a Zyberlane-manufactured or commercially available headset. The separate `hardware/` experience remains a visualization only.
+
+### Fullscreen and interaction
+
+- The **Fullscreen** button first requests the browser's native Fullscreen API. Where that API is unavailable or rejects the request, the player offers a fixed-position **expanded view** (not genuine system fullscreen; browser bars may remain). In expanded video viewing there are in-view pause, mute and exit controls; Escape exits the CSS-expanded view.
+- VR box mode still offers a side-by-side view and tries to request native fullscreen and landscape rotation. If unavailable, its CSS-expanded view remains functional; no browser can guarantee system fullscreen on all devices.
+- Audio uses the browser/device's chosen output (speaker or connected headphones); the web app cannot force headphone routing or override device audio policy.
+- Orientation processing now respects a valid 0° `screen.orientation.angle`, rejects nonfinite tilt samples, discards stale pose history when sensors resume after a long gap and resets calibration after absolute/relative source switching. When readings stop, the UI labels them paused; touch drag remains available.
+- These changes do **not** imply accurate 360° yaw on phones without suitable sensor readings, stereo optical correction or eye tracking.
+
+### Verification and review
+
+The pull request includes Node.js regression tests in `tests/player-behavior.test.cjs` as well as the original quaternion tests. The CI checks source syntax and deterministic behavior only, **not** real phone hardware or physical-headset comfort. A successful static build does not prove video texture rendering, codec performance, headphone output, compass accuracy or actual fullscreen on every browser.
+
+Run locally:
+```sh
+node --check app.js
+node --test tests/*.test.cjs
+python3 -m http.server 8000
+```
+
+Before release: test local MP4 audio through speaker/headphones, native versus CSS-expanded fullscreen, portrait/landscape orientation changes, stable recentering, gesture touch fallback, WebGL availability, remote CORS errors, and exit from both normal and headset modes on real Android/iOS devices. Confirm that expanded mode does not block browser navigation or access to exit controls. **Do not merge based on simulated tests alone** if these behaviors are considered release blockers.

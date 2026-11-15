@@ -11,3 +11,51 @@ button:focus-visible,.url-row input:focus-visible,.field select:focus-visible{ou
 /* Optional hardware preview CTA: no effect on headset playback. */
 .intro .hardware-preview-link{margin-top:22px;text-decoration:none;max-width:100%;white-space:normal;text-align:center;line-height:1.4}
 .intro .hardware-preview-link:focus-visible{outline:2px solid var(--marble);outline-offset:3px}
+
+/* Expanded video: works with the Fullscreen API or a clearly labelled
+   CSS-only fallback on browsers that block system fullscreen. */
+.theater.fullscreen-simulated,
+.theater:fullscreen,
+.theater:-webkit-full-screen {
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  width:100vw;
+  height:100dvh;
+  max-height:none;
+  min-height:0;
+  aspect-ratio:auto;
+  border:0;
+  border-radius:0;
+  background:#000;
+}
+.expanded-controls{
+  position:absolute;
+  z-index:8;
+  top:max(12px, env(safe-area-inset-top, 0px));
+  right:max(12px, env(safe-area-inset-right, 0px));
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.expanded-controls[hidden],
+.vr-active .expanded-controls{display:none}
+.expanded-controls button {
+  min-height:44px;
+  min-width:44px;
+  padding:8px 12px;
+  border:1px solid #818181;
+  border-radius:9px;
+  background:rgba(0,0,0,.85);
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+}
+.expanded-controls button:hover{background:#292929}
+.expanded-controls button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.theater.fullscreen-simulated .empty,
+.theater:fullscreen .empty{max-width:100%}
+@media(max-width:500px){
+  .expanded-controls{left:12px;right:12px;justify-content:flex-end}
+  .expanded-controls button{padding:8px 10px;font-size:12px}
+}
