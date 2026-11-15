@@ -16,5 +16,7 @@ jobs:
           persist-credentials: false
       - name: Check JavaScript syntax
         run: node --check app.js
-      - name: Test tracking mathematics
+      - name: Check presentation JavaScript syntax
+        run: node --check design.js
+      - name: Test tracking and frontend contracts
         run: node --test tests/*.test.cjs
