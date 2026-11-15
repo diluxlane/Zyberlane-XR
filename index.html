@@ -43,7 +43,11 @@
           <button class="hud-button" id="hudCenter" title="Recenter view" aria-label="Recenter view">⊙</button>
           <button class="hud-button" id="hudExit" title="Exit headset mode" aria-label="Exit headset mode">×</button>
         </div>
-        <button id="exitFullscreenOverlay" class="exit-fullscreen-overlay" type="button" aria-label="Exit expanded video view" hidden>✕ Exit expanded view</button>
+        <div id="expandedControls" class="expanded-controls" hidden>
+          <button id="expandedPlay" type="button" aria-label="Play or pause video" title="Play or pause">⏯</button>
+          <button id="expandedMute" type="button" aria-label="Mute or unmute video" title="Mute or unmute">◖))</button>
+          <button id="exitFullscreenOverlay" type="button" aria-label="Exit expanded video view">✕ Exit</button>
+        </div>
         <div class="overlay-bottom">
           <span class="live-label" id="liveLabel"><i></i> AWAITING VIDEO</span>
           <span class="mode-label" id="modeLabel">CINEMA / MONO</span>
