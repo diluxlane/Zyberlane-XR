@@ -1,15 +1,15 @@
 /* Zyberlane XR — editorial design system derived from Zyberlane website.
    Palette, typographic stack, spacing, motion curves and mark follow the approved
    monochrome parent site. Player functionality remains in app.js.
-   Inter Tight served from the owner's public source repository; license in assets/. */
+   Inter Tight self-hosted from the approved website asset set; OFL license in assets/. */
 @font-face{
   font-family:"Inter Tight";
-  src:url("https://raw.githubusercontent.com/diluxlane/Zyberlane-Website-New/main/dist/assets/inter-tight-latin.woff2") format("woff2");
+  src:url("./assets/inter-tight-latin.woff2") format("woff2");
   font-weight:100 900;font-style:normal;font-display:swap
 }
 @font-face{
   font-family:"Inter Tight";
-  src:url("https://raw.githubusercontent.com/diluxlane/Zyberlane-Website-New/main/dist/assets/inter-tight-latin-italic.woff2") format("woff2");
+  src:url("./assets/inter-tight-latin-italic.woff2") format("woff2");
   font-weight:100 900;font-style:italic;font-display:swap
 }
 @font-face{font-family:"TS Sans";src:local("HelveticaNeue"),local("Helvetica Neue");font-weight:100 900}
@@ -338,3 +338,8 @@ html.has-js [data-reveal].is-visible{opacity:1;transform:none}
   *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
   html.has-js [data-reveal]{opacity:1!important;transform:none!important}
 }
+
+/* Prevent an animated, overflow-clipped stage from trapping CSS-only expanded
+   playback. The presentation script keeps this class in sync with VR state. */
+html.xr-expanded .stage-frame{overflow:visible!important;transform:none!important;position:relative;z-index:999}
+html.xr-expanded .theater{opacity:1!important;transform:none!important}
