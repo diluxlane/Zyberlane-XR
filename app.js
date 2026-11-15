@@ -1,4 +1,4 @@
-/* MotionVR — original zero-dependency browser VR prototype.
+/* Zyberlane XR — original zero-dependency browser VR video prototype.
    No analytics, servers, camera access, or video uploads.
    License: MIT. Intended for testing, not a validated headset product. */
 'use strict';
@@ -10,7 +10,7 @@ const theater = $('theater');
 const state = {
   gl: null, program: null, uniforms: {}, texture: null,
   sourceUrl: null, hasVideo: false, textureError: false,
-  headset: false, tracking: false, sensorReceived: false,
+  headset: false, simulatedFullscreen: false, tracking: false, sensorReceived: false, sensorStale: false,
   gotAbsolute: false, lastAbsoluteAt: 0, lastSensorAt: 0,
   lastTelemetryAt: 0, lastFrameAt: 0, alphaSamples: [],
   sensorQ: [0,0,0,1], baseQ: null, smoothQ: [0,0,0,1],
@@ -166,15 +166,23 @@ function qFromEuler(x,y,z) {
 }
 function sensorQuaternion(alpha,beta,gamma) {
   const rad=Math.PI/180;
-  const screenAngle = screen.orientation?.angle || window.orientation || 0;
+  // 0° is a valid screen angle; do not replace it with legacy window.orientation.
+  const screenAngle = Number.isFinite(screen.orientation?.angle) ? screen.orientation.angle : (Number.isFinite(window.orientation) ? window.orientation : 0);
   const q = qFromEuler(beta*rad, alpha*rad, -gamma*rad);
   const fixed = qMultiply(q,[ -Math.SQRT1_2,0,0,Math.SQRT1_2 ]);
   return qNormalize(qMultiply(fixed,[0,0,-Math.sin(screenAngle*rad/2),Math.cos(screenAngle*rad/2)]));
 }
 function handleOrientation(event, absoluteEvent = false) {
-  if (event.beta == null || event.gamma == null) return;
+  if (!Number.isFinite(event.beta) || !Number.isFinite(event.gamma)) return;
   const now = performance.now();
-  if (absoluteEvent || event.absolute) { state.gotAbsolute = true; state.lastAbsoluteAt = now; }
+  if (state.sensorReceived && now - state.lastSensorAt > 3500) {
+    // Long browser backgrounding/paused sensors: rebase instead of snapping to a stale pose.
+    state.baseQ = null;
+    state.alphaSamples = [];
+    state.lastAcceptedAlpha = null;
+    state.lastAcceptedAt = 0;
+  }
+  if (absoluteEvent || event.absolute) state.lastAbsoluteAt = now;
   if (!absoluteEvent && !event.absolute && now-state.lastAbsoluteAt < 1200) return;
   const source = absoluteEvent || event.absolute ? 'absolute' : 'relative';
   const alpha = Number.isFinite(event.alpha) ? event.alpha : 0;
@@ -185,10 +193,15 @@ function handleOrientation(event, absoluteEvent = false) {
     if (jump > 75 && now - state.lastAcceptedAt < 130) return;
   }
   if (state.orientationSource && source !== state.orientationSource) {
-    // Do not compare relative and absolute coordinate frames directly.
+    // Never compare compass and relative frames; restart calibration and heading evidence.
     state.baseQ = null;
+    state.alphaSamples = [];
+    state.lastAcceptedAlpha = null;
+    state.lastAcceptedAt = 0;
   }
   state.orientationSource = source;
+  state.gotAbsolute = source === 'absolute';
+  state.sensorStale = false;
   if (Number.isFinite(event.alpha)) {
     state.lastAcceptedAlpha = alpha;
     state.lastAcceptedAt = now;
@@ -308,20 +321,65 @@ async function playPause() {
   else video.pause();
   refreshPlayback();
 }
+function syncFullscreenUI() {
+  const expanded = state.simulatedFullscreen || document.fullscreenElement === theater;
+  const exitControl = $('exitFullscreenOverlay');
+  if (exitControl) exitControl.hidden = !expanded || state.headset;
+  const button = $('fullscreen');
+  button.setAttribute('aria-pressed', String(expanded || state.headset));
+  button.setAttribute('aria-label', expanded || state.headset ? 'Exit expanded viewing' : 'Expand video fullscreen');
+}
+function setSimulatedFullscreen(on) {
+  state.simulatedFullscreen = on;
+  theater.classList.toggle('fullscreen-simulated', on);
+  document.body.style.overflow = (on || state.headset) ? 'hidden' : '';
+  syncFullscreenUI();
+  resizeCanvas();
+}
+async function toggleFullscreen() {
+  if (state.headset) { await setHeadset(false); return; }
+  if (state.simulatedFullscreen) {
+    setSimulatedFullscreen(false);
+    notify('Exited expanded viewing.');
+    return;
+  }
+  if (document.fullscreenElement === theater) {
+    try { await document.exitFullscreen(); } catch { notify('Could not exit system fullscreen. Use your browser controls.', 'warn'); }
+    return;
+  }
+  if (typeof theater.requestFullscreen === 'function') {
+    try {
+      await theater.requestFullscreen();
+      syncFullscreenUI();
+      resizeCanvas();
+      return;
+    } catch { /* Browser may forbid native fullscreen on this device. */ }
+  }
+  setSimulatedFullscreen(true);
+  notify('Expanded player view is active. Your browser may still show system bars; use Exit or Escape to return.', 'warn');
+}
 async function setHeadset(on) {
-  state.headset=on;
-  theater.classList.toggle('vr-active',on);
-  document.body.style.overflow=on?'hidden':'';
+  if (on && state.simulatedFullscreen) setSimulatedFullscreen(false);
+  state.headset = on;
+  theater.classList.toggle('vr-active', on);
+  document.body.style.overflow = on ? 'hidden' : '';
   if (on) {
-    try { if (theater.requestFullscreen && document.fullscreenElement!==theater) await theater.requestFullscreen(); } catch {}
+    let nativeFullscreen = document.fullscreenElement === theater;
+    if (!nativeFullscreen && typeof theater.requestFullscreen === 'function') {
+      try { await theater.requestFullscreen(); nativeFullscreen = true; } catch { /* CSS VR view stays available. */ }
+    }
     try { if (screen.orientation?.lock) await screen.orientation.lock('landscape'); } catch {}
-    notify('Headset mode on. Place the phone in landscape, adjust the lenses, and recenter while facing forward.');
+    notify(nativeFullscreen ? 'Headset view active. Recenter while facing forward and test comfort briefly.' :
+      'Headset view expanded. System fullscreen or rotation lock is unavailable; browser bars may remain.', nativeFullscreen ? '' : 'warn');
   } else {
-    if (document.fullscreenElement === theater) { try { await document.exitFullscreen(); } catch {} }
+    if (document.fullscreenElement === theater) {
+      try { await document.exitFullscreen(); } catch { /* CSS VR mode still exits. */ }
+    }
     try { screen.orientation?.unlock?.(); } catch {}
     notify('Exited headset mode.');
   }
   updateModeLabel();
+  syncFullscreenUI();
   resizeCanvas();
 }
 function updateModeLabel() {
@@ -339,6 +397,13 @@ function draw(timestamp) {
   if (!state.gl || document.hidden) return;
   // One draw per frame, with cheap smoothing. FPS depends on GPU + browser.
   resizeCanvas();
+  if (state.tracking && state.sensorReceived && !state.sensorStale && timestamp - state.lastSensorAt > 3500) {
+    state.sensorStale = true;
+    $('sensorStatus').textContent = 'Orientation readings paused';
+    $('sensorDetail').textContent = 'Touch controls remain available. Check permissions or resume movement.';
+    $('sensorLight').className = 'sensor-light warn';
+    notify('The browser stopped delivering orientation readings. Touch drag still works.', 'warn');
+  }
   const gl=state.gl, u=state.uniforms;
   if (state.hasVideo && video.readyState>=video.HAVE_CURRENT_DATA && !state.textureError) {
     try {
@@ -406,11 +471,24 @@ $('fov').addEventListener('input',(e)=>{state.fov=Number(e.target.value);$('fovV
 $('smooth').addEventListener('input',(e)=>{state.smoothing=Number(e.target.value);$('smoothValue').textContent=state.smoothing>75?'High':state.smoothing>35?'Medium':'Low';});
 $('enterVr').addEventListener('click',()=>setHeadset(true));
 $('hudExit').addEventListener('click',()=>setHeadset(false));
-$('fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement){await document.exitFullscreen();}else if(theater.requestFullscreen){await theater.requestFullscreen();}}catch{notify('Fullscreen is blocked by this browser.','warn');}});
-document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement && state.headset) {state.headset=false;theater.classList.remove('vr-active');document.body.style.overflow='';updateModeLabel();}});
+$('fullscreen').addEventListener('click',toggleFullscreen);
+$('exitFullscreenOverlay').addEventListener('click',toggleFullscreen);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && state.simulatedFullscreen) setSimulatedFullscreen(false); });
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement && state.headset) {
+    state.headset = false;
+    theater.classList.remove('vr-active');
+    document.body.style.overflow = '';
+    try { screen.orientation?.unlock?.(); } catch {}
+    updateModeLabel();
+  }
+  syncFullscreenUI();
+  resizeCanvas();
+});
 canvas.addEventListener('pointerdown',(e)=>{if(!state.touchEnabled)return;state.dragging=true;state.pointerX=e.clientX;state.pointerY=e.clientY;canvas.setPointerCapture(e.pointerId);});
 canvas.addEventListener('pointermove',(e)=>{if(!state.dragging || !state.touchEnabled) return;const dx=e.clientX-state.pointerX,dy=e.clientY-state.pointerY;state.pointerX=e.clientX;state.pointerY=e.clientY;state.touchYaw-=dx/Math.max(1,canvas.clientWidth)*Math.PI*1.45;state.touchPitch=Math.max(-1.45,Math.min(1.45,state.touchPitch-dy/Math.max(1,canvas.clientHeight)*Math.PI));});
 canvas.addEventListener('pointerup',()=>{state.dragging=false;});
+canvas.addEventListener('lostpointercapture',()=>{state.dragging=false;});
 canvas.addEventListener('pointercancel',()=>{state.dragging=false;});
 video.addEventListener('loadedmetadata',async()=>{
   state.hasVideo=true;
@@ -426,8 +504,10 @@ video.addEventListener('play',refreshPlayback);
 video.addEventListener('pause',refreshPlayback);
 video.addEventListener('ended',refreshPlayback);
 window.addEventListener('resize',resizeCanvas);
+screen.orientation?.addEventListener?.('change', resizeCanvas);
 window.addEventListener('beforeunload',()=>{if(state.sourceUrl)URL.revokeObjectURL(state.sourceUrl);});
 
+syncFullscreenUI();
 try { initGl(); requestAnimationFrame(draw); }
 catch(err) {
   // Safe degradation: native flat video rather than a blank screen.
