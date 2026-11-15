@@ -32,7 +32,7 @@ See `DESIGN-IMPLEMENTATION.md` for the element-by-element mapping and QA accepta
 
 ## How to use on your phone
 
-1. Host the **three application files** (`index.html`, `style.css`, `app.js`) on any HTTPS static host (GitHub Pages, Cloudflare Pages, Netlify, etc.). `localhost` is suitable for local development. Opening `index.html` directly using file:// may not enable sensors.
+1. Host the **complete repository's static site** (`index.html`, `style.css`, `app.js`, `design.js`, and `assets/`) on an HTTPS static host (GitHub Pages, Cloudflare Pages, Netlify, Vercel, etc.). `localhost` is suitable for local development. Opening `index.html` directly using file:// may not enable sensors.
 2. Open in Chrome for Android. Pick a local video or paste an HTTPS URL ending in a **direct video resource** with CORS enabled. Press Play.
 3. Select `Virtual cinema`, `360° equirectangular`, or `180° equirectangular` to match the video **source**. Select mono, SBS, or top/bottom to match the **source stereoscopy**.
 4. Press **Enable motion sensors**. Rotate the phone and inspect the alpha/beta/gamma readings. Alpha may be unavailable or unreliable without a gyroscope/magnetometer. Head tracking is not guaranteed even if beta/gamma change.
