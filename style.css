@@ -39,7 +39,7 @@ img{display:block;max-width:100%}
 .brand__identity{display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0}
 .brand__wordmark{width:178px;height:auto;aspect-ratio:916/100}
 .brand__descriptor{white-space:nowrap;color:var(--ink-2);font-size:7px;letter-spacing:.16em;line-height:1.15;font-weight:540}
-.brand__division{border-left:1px solid var(--line-bright);padding-left:12px;font-size:12px;font-weight:520;letter-spacing:.06em;white-space:nowrap;color:var(--ink-2)}
+.brand__xr{height:34px;width:auto;aspect-ratio:94/60;display:block;flex:none;object-fit:contain;margin-left:-2px}
 .header-actions{display:flex;align-items:center;gap:32px}
 .header-status{font-size:10px;letter-spacing:.11em;font-weight:540;color:var(--muted);display:inline-flex;align-items:center;gap:10px;white-space:nowrap}
 .status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ededed;box-shadow:0 0 0 4px rgba(255,255,255,.055);flex:none}
@@ -196,6 +196,7 @@ html.has-js [data-reveal].is-visible{opacity:1;transform:none}
   .brand__mark{width:29px;height:29px}
   .brand__wordmark{width:152px}
   .brand__descriptor{font-size:6px;letter-spacing:.13em}
+  .brand__xr{height:31px;margin-left:-2px}
   .intro{padding-top:22px;padding-bottom:20px}
   .intro h1{font-size:clamp(32px,6.4vw,49px)}
   .intro__lead{font-size:12px}
@@ -218,7 +219,7 @@ html.has-js [data-reveal].is-visible{opacity:1;transform:none}
   .brand__mark{width:28px;height:28px}
   .brand__wordmark{width:126px}
   .brand__descriptor{font-size:5.5px;letter-spacing:.075em}
-  .brand__division{padding-left:8px;font-size:11px}
+  .brand__xr{height:29px;margin-left:-1px}
   .text-button{font-size:11px}
   .intro{padding-block:18px 17px}
   .intro h1{font-size:clamp(31px,8.3vw,39px)}
@@ -267,6 +268,9 @@ html.has-js [data-reveal].is-visible{opacity:1;transform:none}
 @media(max-width:360px){
   .brand__wordmark{width:107px}
   .brand__descriptor{font-size:5px;letter-spacing:.045em}
+  .brand__xr{height:27px;margin-left:0}
+  .site-header{gap:8px}
+  .text-button{font-size:10px}
   .stage-header__label{letter-spacing:.04em}
   .quickbar__actions{gap:5px}
   .tool-button{font-size:8.5px}
