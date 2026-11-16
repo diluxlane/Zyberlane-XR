@@ -17,7 +17,7 @@ const state = {
   touchYaw: 0, touchPitch: 0, touchEnabled: true,
   dragging: false, pointerX: 0, pointerY: 0, lastAlpha: null,
   lastAcceptedAlpha: null, lastAcceptedAt: 0, orientationSource: null,
-  fov: 75, smoothing: 60, projection: '360', layout: 'mono'
+  fov: 75, smoothing: 60, projection: 'cinema', layout: 'mono'
 };
 
 const vshader = `
@@ -279,10 +279,11 @@ function setSource(src, label, fromUrl=false) {
   state.hasVideo = false;
   state.textureError = false;
   $('empty').hidden = false;
+  for (const id of ['playPause','mute','seek']) $(id).disabled = true;
   $('fileName').textContent = label;
   video.src = src;
   video.load();
-  notify(fromUrl ? 'Loading remote video… The host must allow cross-origin video for WebGL rendering.' : 'Loading local video… It stays on this device.');
+  notify(fromUrl ? 'Opening video link… The video host must allow browser playback.' : 'Opening video from this device… No upload is made.');
 }
 function loadLocal() {
   const file = $('localFile').files?.[0];
@@ -359,6 +360,14 @@ async function toggleFullscreen() {
   notify('Expanded player view is active. Your browser may still show system bars; use Exit or Escape to return.', 'warn');
 }
 async function setHeadset(on) {
+  if (on && !state.hasVideo) {
+    notify('Choose a video first. Then select VR glasses to enter the split-screen headset view.', 'warn');
+    return;
+  }
+  if (on && theater.classList.contains('fallback')) {
+    notify('VR viewing is unavailable because your browser cannot run the immersive renderer. Normal video playback still works.', 'warn');
+    return;
+  }
   if (on && state.simulatedFullscreen) setSimulatedFullscreen(false);
   state.headset = on;
   theater.classList.toggle('vr-active', on);
@@ -497,9 +506,15 @@ video.addEventListener('loadedmetadata',async()=>{
   $('empty').hidden=true;
   for(const id of ['playPause','mute','seek']) $(id).disabled=false;
   refreshPlayback();
-  notify(`Video loaded (${video.videoWidth} × ${video.videoHeight}). ${state.projection==='360' ? '360° immersive view selected: no virtual screen. It requires true equirectangular 360° footage.' : 'Choose the correct projection and stereo layout for the video.'} Press Play.`);
+  notify(`Video ready (${video.videoWidth} × ${video.videoHeight}). Press Play. ${state.projection==='cinema' ? 'Normal video mode is selected.' : 'Ensure the video was recorded in your selected panoramic format.'}`);
 });
-video.addEventListener('error',()=>{state.hasVideo=false;notify('Could not load this video. Check the file/URL, browser codec support, HTTPS, and CORS for remote sources.','error');});
+video.addEventListener('error',()=>{
+  state.hasVideo=false;
+  $('empty').hidden=false;
+  for (const id of ['playPause','mute','seek']) $(id).disabled=true;
+  $('liveLabel').textContent='VIDEO UNAVAILABLE';
+  notify('Could not open this video. Try a compatible local MP4, or check the direct URL and CORS settings.','error');
+});
 video.addEventListener('timeupdate',refreshPlayback);
 video.addEventListener('durationchange',refreshPlayback);
 video.addEventListener('play',refreshPlayback);
@@ -515,6 +530,9 @@ catch(err) {
   // Safe degradation: native flat video rather than a blank screen.
   theater.classList.add('fallback');
   theater.insertBefore(video, canvas.nextSibling);
-  $('enterVr').disabled = true;
-  notify(`VR renderer unavailable: ${err.message} The player can still show normal video, but not VR.`, 'warn');
+  state.projection='cinema';
+  $('projection').value='cinema';
+  for (const id of ['enterVr','projection','layout','enableMotion','recenter','fov','smooth']) $(id).disabled = true;
+  updateModeLabel();
+  notify(`Immersive viewing is unavailable: ${err.message}. You can still play a normal video using the controls below.`, 'warn');
 }

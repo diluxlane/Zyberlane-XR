@@ -4,7 +4,20 @@ An original, self-contained, dependency-free prototype for watching browser-supp
 
 **Status: experimental, not a production/comfort-validated Android VR app.** Its head tracking depends on *actual* browser orientation readings. **It has no real eye tracking**; the crosshair is a head-gaze reference only.
 
-## Zyberlane XR visual-system rebuild — November 15, 2026
+## Current development: Player-first premium experience
+
+The approved UX rebuild focuses on helping **first-time visitors** start watching immediately. The video player, file selection, playback, video type, motion and VR buttons are together at the top of the page. Technical stereo, FOV, smoothing and orientation diagnostics are in an accessible Settings dialog. A Help dialog explains video modes in three steps.
+
+- **Normal video is now the default**; switch to 180° or 360° only when the footage matches.
+- **Local files stay on the device**; remote URLs still depend on the original host's CORS and codec support.
+- The **original WebGL rendering engine, device orientation math, touch controls, mono/SBS/TB, headset viewing and native/CSS fullscreen fallback** remain available.
+- Fullscreen/VR and sensor permissions remain subject to browser/hardware limits, with honest messages and usable fallbacks.
+- Shared ZL brand mark and wordmark, self-hosted Inter Tight, monochrome palette and reduced-motion support remain.
+- This development branch must pass static tests, headless browser smoke and a separate real-device QA review before being merged. **No production changes authorized**.
+
+Read [PLAYER-FIRST-RELEASE.md](PLAYER-FIRST-RELEASE.md) for the exact Phase A–E implementation, CI screenshot evidence and manual acceptance criteria. Older visual-rebuild notes below describe the historical marketing-first layout and should not be treated as the current UI structure.
+
+## Zyberlane XR visual-system rebuild — November 15, 2026 (historical)
 
 The frontend now follows the **current Zyberlane company website's editorial design language**, with the original XR player functions and source code preserved:
 

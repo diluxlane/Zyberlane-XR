@@ -6,228 +6,212 @@
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
   <meta name="application-name" content="Zyberlane | Creative Technology Company">
-  <meta name="description" content="Zyberlane XR is an experimental immersive browser video player for 2D cinema, 180° and 360° video with optional motion control, touch fallback and phone headset viewing.">
+  <meta name="description" content="Zyberlane XR: a simple, private browser player for normal, 180° and 360° videos. Choose your own video, look around with touch or supported motion sensors, and try phone VR headset viewing.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Zyberlane | Creative Technology Company">
-  <meta property="og:title" content="Zyberlane XR — Beyond the Frame">
-  <meta property="og:description" content="An experimental immersive video experience from Zyberlane. Explore virtual cinema, panoramic video and sensor-aware viewing.">
-  <title>Zyberlane XR — Beyond the Frame</title>
+  <meta property="og:title" content="Zyberlane XR — Your World. Your Screen.">
+  <meta property="og:description" content="Your video, your view. A minimal immersive browser video player by Zyberlane.">
+  <title>Zyberlane XR — Your World. Your Screen.</title>
   <link rel="icon" type="image/svg+xml" href="./assets/zyberlane-mark.svg">
   <link rel="stylesheet" href="./style.css">
   <script src="./design.js" defer></script>
   <script src="./app.js" defer></script>
+  <script src="./ui.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#studio">Skip to XR player</a>
+  <a class="skip-link" href="#studio">Skip to video player</a>
   <div class="page-shell">
-    <header class="site-header" id="top">
-      <a class="brand" href="#top" aria-label="Zyberlane Creative Technology Company — XR home">
-        <img class="brand__mark" src="./assets/zyberlane-mark.svg" alt="" width="31" height="31">
-        <span class="brand__identity"><img class="brand__wordmark" src="./assets/zyberlane-wordmark.svg" alt="" width="180" height="20"><span class="brand__descriptor">CREATIVE TECHNOLOGY COMPANY</span></span>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Zyberlane Creative Technology Company — XR home">
+        <img class="brand__mark" src="./assets/zyberlane-mark.svg" alt="" width="32" height="32">
+        <span class="brand__identity">
+          <img class="brand__wordmark" src="./assets/zyberlane-wordmark.svg" alt="" width="178" height="20">
+          <span class="brand__descriptor">CREATIVE TECHNOLOGY COMPANY</span>
+        </span>
         <span class="brand__division">/ XR</span>
       </a>
-      <nav class="site-nav" aria-label="Page sections">
-        <a href="#studio" class="nav-link"><span class="roll"><span>Studio</span><span aria-hidden="true">Studio</span></span></a>
-        <a href="#controls" class="nav-link"><span class="roll"><span>Controls</span><span aria-hidden="true">Controls</span></span></a>
-        <a href="#about" class="nav-link"><span class="roll"><span>About XR</span><span aria-hidden="true">About XR</span></span></a>
-      </nav>
-      <a class="header-cta" href="https://zyberlane.com/" rel="noopener noreferrer" target="_blank">
-        <span>Explore Zyberlane</span><span aria-hidden="true">↗</span>
-      </a>
+      <div class="header-actions">
+        <span class="header-status"><span class="status-dot" aria-hidden="true"></span> EXPERIMENT / 001</span>
+        <button id="openHelp" class="text-button" type="button" aria-haspopup="dialog" aria-controls="helpDialog">How it works <span aria-hidden="true">↗</span></button>
+      </div>
     </header>
 
-    <main>
-      <section class="hero section-pad" aria-labelledby="hero-title">
-        <div class="hero__eyebrow" data-reveal>
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>ZYBERLANE / CREATIVE TECHNOLOGY COMPANY</span>
-          <span class="hero__eyebrow-divider" aria-hidden="true"></span>
-          <span>XR RESEARCH / EXPERIMENT 001</span>
+    <main id="studio" class="application">
+      <section class="intro" aria-labelledby="introTitle" data-reveal>
+        <div class="intro__copy">
+          <p class="eyebrow"><span class="eyebrow__line"></span> PRIVATE IMMERSIVE PLAYER</p>
+          <h1 id="introTitle">Your world. <em>Your screen.</em></h1>
+          <p class="intro__lead">Open a video and watch it your way. No account. No upload.</p>
         </div>
-        <h1 class="hero__title" id="hero-title">
-          <span class="hero__line" data-reveal data-delay="1"><span>BEYOND</span></span>
-          <span class="hero__line hero__line--second" data-reveal data-delay="2"><span>THE <em>FRAME.</em></span></span>
-        </h1>
-        <div class="hero__bottom" data-reveal data-delay="3">
-          <div class="hero__index"><span>EXPLORE</span><span class="hero__index-line" aria-hidden="true"></span><span>01 / 04</span></div>
-          <div class="hero__summary">
-            <p>Your screen is a doorway. Enter a private immersive video space with 360° worlds, cinematic playback and motion when your device supports it.</p>
-            <a class="action action--light" href="#studio">
-              <span class="roll"><span>Enter the XR studio</span><span aria-hidden="true">Enter the XR studio</span></span>
-              <span class="action__arrow" aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </div>
-        <div class="hero__bottom-rule" aria-hidden="true"></div>
-        <p class="hero__footnote">EXPERIMENTAL BROWSER PROTOTYPE <span aria-hidden="true">—</span> BUILT BEYOND BOUNDARIES.</p>
+        <div class="intro__edition"><span>ZYBERLANE XR</span><span>BUILT BEYOND BOUNDARIES.</span></div>
       </section>
 
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee__track">
-          <span>IMAGINE MORE</span><img src="./assets/zyberlane-mark.svg" alt=""><span>MOVE BEYOND</span><img src="./assets/zyberlane-mark.svg" alt=""><span>SEE DIFFERENTLY</span><img src="./assets/zyberlane-mark.svg" alt="">
-          <span>IMAGINE MORE</span><img src="./assets/zyberlane-mark.svg" alt=""><span>MOVE BEYOND</span><img src="./assets/zyberlane-mark.svg" alt=""><span>SEE DIFFERENTLY</span><img src="./assets/zyberlane-mark.svg" alt="">
+      <section class="stage-frame" aria-label="Video player and viewing controls">
+        <div class="stage-header">
+          <div class="stage-header__label"><span class="status-dot" aria-hidden="true"></span> VIDEO STUDIO <span class="stage-header__sub">/ BROWSER EXPERIENCE</span></div>
+          <div class="source-actions">
+            <label for="localFile" id="changeVideo" class="action-button action-button--file" tabindex="0">
+              <span aria-hidden="true">↗</span> <span>Choose video</span>
+              <input id="localFile" type="file" accept="video/*,.mp4,.webm,.m4v,.mov" aria-label="Choose a video file from your device">
+            </label>
+            <button class="action-button action-button--quiet" type="button" id="openLink" aria-haspopup="dialog" aria-controls="linkDialog">Open link</button>
+          </div>
+        </div>
+
+        <div class="theater" id="theater" aria-label="Immersive video player">
+          <canvas id="scene" aria-label="Video scene. In 180° or 360° mode, drag to look around."></canvas>
+          <div class="empty" id="empty">
+            <div class="empty__orb" aria-hidden="true">
+              <span class="empty__ring"></span>
+              <img src="./assets/zyberlane-mark.svg" alt="">
+            </div>
+            <span class="empty__kicker">START HERE</span>
+            <h2>Your video, <em>your view.</em></h2>
+            <p>Choose a file on your device to begin.</p>
+            <label class="empty__cta" for="localFile" tabindex="0"><span aria-hidden="true">↗</span> Choose a video</label>
+            <button class="empty__link" type="button" id="openLinkEmpty" aria-haspopup="dialog" aria-controls="linkDialog">Or open a video link</button>
+          </div>
+          <div class="reticle" id="reticle" aria-hidden="true"></div>
+          <div class="vr-hud" id="vrHud">
+            <button class="hud-button" type="button" id="hudPlay" aria-label="Play or pause">⏯</button>
+            <button class="hud-button" type="button" id="hudCenter" aria-label="Recenter view">⊙</button>
+            <button class="hud-button" type="button" id="hudExit" aria-label="Exit headset mode">✕</button>
+          </div>
+          <div id="expandedControls" class="expanded-controls" hidden>
+            <button id="expandedPlay" type="button" aria-label="Play or pause video">⏯</button>
+            <button id="expandedMute" type="button" aria-label="Mute or unmute video">◖))</button>
+            <button id="exitFullscreenOverlay" type="button" aria-label="Exit expanded video view">✕ Exit</button>
+          </div>
+          <div class="overlay-bottom">
+            <span class="live-label" id="liveLabel"><i aria-hidden="true"></i> AWAITING VIDEO</span>
+            <span class="mode-label" id="modeLabel">CINEMA / MONO</span>
+          </div>
+        </div>
+
+        <div class="playerbar" aria-label="Playback controls">
+          <button id="playPause" class="icon-button" aria-label="Play or pause" type="button" disabled>▶</button>
+          <span class="time" id="timeNow">0:00</span>
+          <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Video seek position" disabled>
+          <span class="time" id="timeTotal">0:00</span>
+          <button id="mute" class="icon-button" type="button" aria-label="Mute or unmute" disabled>◖))</button>
+          <button id="fullscreen" class="icon-button" type="button" title="Expand video" aria-label="Expand video fullscreen" aria-pressed="false">⛶</button>
+        </div>
+
+        <div class="quickbar" aria-label="Video viewing options">
+          <div class="quickbar__mode">
+            <label for="projection">Video type</label>
+            <select id="projection" aria-describedby="modeHelp">
+              <option value="cinema" selected>Normal video</option>
+              <option value="360">360° video</option>
+              <option value="180">180° video</option>
+            </select>
+          </div>
+          <div class="quickbar__actions">
+            <button id="enableMotion" class="tool-button" type="button" aria-describedby="motionHint"><span aria-hidden="true">◎</span> Move phone</button>
+            <button id="recenter" class="tool-button" type="button" title="Recenter your view"><span aria-hidden="true">⊙</span> Recenter</button>
+            <button id="enterVr" class="tool-button" type="button" title="Split view for a phone VR headset" aria-describedby="vrHint"><span aria-hidden="true">◉</span> VR glasses</button>
+            <button id="openSettings" class="tool-button tool-button--settings" type="button" aria-haspopup="dialog" aria-controls="settingsDialog"><span aria-hidden="true">⚙</span> Settings</button>
+          </div>
+        </div>
+        <p id="modeHelp" class="quick-help">Normal video is best for everyday footage. Choose 180° or 360° only if your video was recorded that way.</p>
+      </section>
+
+      <div class="feedback-row">
+        <p class="message" id="message" role="status" aria-live="polite">Ready. Choose a video to begin.</p>
+        <p class="privacy-hint">YOUR FILE STAYS ON YOUR DEVICE <span aria-hidden="true">↗</span></p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <a class="footer-brand" href="./index.html" aria-label="Zyberlane Creative Technology Company XR home">
+          <img class="footer-brand__mark" src="./assets/zyberlane-mark.svg" alt="" width="33" height="33">
+          <span class="footer-brand__identity">
+            <img class="footer-brand__wordmark" src="./assets/zyberlane-wordmark.svg" alt="" width="224" height="25">
+            <span class="footer-brand__descriptor">CREATIVE TECHNOLOGY COMPANY</span>
+          </span>
+          <span class="footer-brand__division">/ XR</span>
+        </a>
+        <p>Built Beyond Boundaries.</p>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 ZYBERLANE · EXPERIMENTAL</span>
+        <div class="footer-links">
+          <a href="https://zyberlane.com/" target="_blank" rel="noopener noreferrer">MAIN WEBSITE ↗</a>
+          <a href="https://github.com/diluxlane/Zyberlane-XR" target="_blank" rel="noopener noreferrer">SOURCE ↗</a>
         </div>
       </div>
-
-      <section id="studio" class="studio section-pad" aria-labelledby="studio-heading">
-        <div class="section-heading" data-reveal>
-          <span class="section-heading__num">01 / THE EXPERIENCE</span>
-          <span class="section-heading__side">INTERACTIVE EXPERIMENT · YOUR DEVICE / YOUR VIDEO</span>
-        </div>
-        <div class="studio__intro" data-reveal>
-          <h2 id="studio-heading">A new way to <em>watch.</em></h2>
-          <p>Choose a video. Explore a scene. Turn your device when orientation data is available, or drag to look around.</p>
-        </div>
-
-        <div class="stage-frame" data-reveal>
-          <div class="stage-frame__top">
-            <span><span class="status-dot" aria-hidden="true"></span> XR STUDIO / LIVE VIEWPORT</span>
-            <span class="stage-frame__top-right">INTERACTIVE CANVAS <span aria-hidden="true">↗</span></span>
-          </div>
-          <section class="theater" id="theater" aria-label="Immersive video player">
-            <canvas id="scene" aria-label="Interactive VR video scene. Drag to look around when touch input is enabled."></canvas>
-            <div class="player-grid" aria-hidden="true"></div>
-            <div class="empty" id="empty">
-              <div class="empty__orbit" aria-hidden="true">
-                <div class="empty__orbit-inner"></div>
-                <img src="./assets/zyberlane-mark.svg" alt="">
-              </div>
-              <span class="empty__eyebrow">AWAITING YOUR EXPERIENCE</span>
-              <strong>Every view begins <em>somewhere.</em></strong>
-              <span class="empty__prompt">Choose a video below to begin exploring.</span>
-            </div>
-            <div class="reticle" id="reticle" aria-hidden="true"></div>
-            <div class="vr-hud" id="vrHud">
-              <button class="hud-button" id="hudPlay" type="button" title="Play or pause" aria-label="Play or pause">⏯</button>
-              <button class="hud-button" id="hudCenter" type="button" title="Recenter view" aria-label="Recenter view">⊙</button>
-              <button class="hud-button" id="hudExit" type="button" title="Exit headset mode" aria-label="Exit headset mode">×</button>
-            </div>
-            <div id="expandedControls" class="expanded-controls" hidden>
-              <button id="expandedPlay" type="button" aria-label="Play or pause video" title="Play or pause">⏯</button>
-              <button id="expandedMute" type="button" aria-label="Mute or unmute video" title="Mute or unmute">◖))</button>
-              <button id="exitFullscreenOverlay" type="button" aria-label="Exit expanded video view">✕ Exit</button>
-            </div>
-            <div class="overlay-bottom">
-              <span class="live-label" id="liveLabel"><i></i> AWAITING VIDEO</span>
-              <span class="mode-label" id="modeLabel">360 / MONO</span>
-            </div>
-          </section>
-          <div class="playerbar" aria-label="Video playback controls">
-            <button id="playPause" class="icon-button" aria-label="Play or pause" type="button" disabled>▶</button>
-            <span class="time" id="timeNow">0:00</span>
-            <input id="seek" class="seek" type="range" min="0" max="1000" value="0" aria-label="Video seek position" disabled>
-            <span class="time" id="timeTotal">0:00</span>
-            <button id="mute" class="icon-button" type="button" aria-label="Mute or unmute" disabled>◖))</button>
-            <button id="fullscreen" class="subtle-button" type="button" title="Expand video view" aria-label="Expand video view" aria-pressed="false"><span aria-hidden="true">⛶</span> Fullscreen</button>
-          </div>
-          <div class="stage-frame__bottom">
-            <span>DRAG TO LOOK AROUND <span aria-hidden="true">↗</span></span>
-            <span>NO VIDEO UPLOADS / NO ACCOUNT</span>
-          </div>
-        </div>
-        <div class="message" id="message" role="status" aria-live="polite">Ready. Choose a video and enable motion to test your phone.</div>
-      </section>
-
-      <section class="workspace section-pad" id="controls" aria-labelledby="controls-heading">
-        <div class="section-heading" data-reveal><span class="section-heading__num">02 / CONFIGURE</span><span class="section-heading__side">YOUR VIEW, YOUR WAY</span></div>
-        <div class="workspace__heading" data-reveal><h2 id="controls-heading">Make it <em>yours.</em></h2><p>From a single screen to a panoramic environment, configure the experience in three simple steps.</p></div>
-        <div class="workspace__grid">
-          <section class="panel" data-reveal data-delay="1" aria-labelledby="source-heading">
-            <div class="panel-head"><span class="number">01</span><span class="panel-head__right">MEDIA</span></div>
-            <h3 id="source-heading">Bring your <em>world.</em></h3>
-            <p class="help">Choose a file on your device, or open a direct HTTPS video URL. Local files never upload to this website.</p>
-            <label class="file-zone" for="localFile">
-              <span class="file-symbol" aria-hidden="true">↗</span>
-              <span><strong>Choose a video</strong><small>MP4, WebM and compatible files</small></span>
-              <input id="localFile" type="file" accept="video/*,.mp4,.webm,.m4v,.mov">
-            </label>
-            <div class="or"><span>OR USE A DIRECT URL</span></div>
-            <div class="url-row">
-              <input id="videoUrl" type="url" placeholder="https://example.com/video.mp4" spellcheck="false" autocomplete="off" aria-label="Direct HTTPS video URL">
-              <button id="loadUrl" class="button light" type="button">Load ↗</button>
-            </div>
-            <div class="file-name" id="fileName">No video selected</div>
-          </section>
-
-          <section class="panel" data-reveal data-delay="2" aria-labelledby="tracking-heading">
-            <div class="panel-head"><span class="number">02</span><span class="panel-head__right">MOTION</span></div>
-            <h3 id="tracking-heading">Move with <em>it.</em></h3>
-            <p class="help">Use device orientation where supported. Dragging is available when sensor readings are missing or unreliable.</p>
-            <div class="sensor-state"><span class="sensor-light" id="sensorLight" aria-hidden="true"></span><div><strong id="sensorStatus">Motion not enabled</strong><small id="sensorDetail">Enable and rotate the phone to inspect the readings.</small></div></div>
-            <button id="enableMotion" class="button primary full" type="button">Enable motion sensors <span aria-hidden="true">↗</span></button>
-            <div class="readings" aria-label="Device orientation readings">
-              <div><span>α / HEADING</span><strong id="alpha">—</strong></div>
-              <div><span>β / TILT</span><strong id="beta">—</strong></div>
-              <div><span>γ / ROLL</span><strong id="gamma">—</strong></div>
-            </div>
-            <div class="button-pair"><button id="recenter" class="button secondary" type="button">⊙ Recenter</button><button id="touchToggle" class="button secondary" type="button" aria-pressed="true">Touch: ON</button></div>
-          </section>
-
-          <section class="panel panel--settings" data-reveal data-delay="3" aria-labelledby="view-heading">
-            <div class="panel-head"><span class="number">03</span><span class="panel-head__right">IMMERSION</span></div>
-            <h3 id="view-heading">Set the <em>perspective.</em></h3>
-            <p class="help">Select the correct projection and stereoscopy for your source video. Flat footage does not become real 360° content.</p>
-            <div class="settings-grid">
-              <label class="field">Video projection
-                <select id="projection">
-                  <option value="360" selected>Immersive 360° — inside the video</option>
-                  <option value="cinema">Virtual cinema — floating screen</option>
-                  <option value="180">Immersive 180° — front hemisphere</option>
-                </select>
-              </label>
-              <label class="field">Video stereoscopy
-                <select id="layout">
-                  <option value="mono">Normal 2D (mono)</option>
-                  <option value="sbs">Side by side (SBS) 3D</option>
-                  <option value="tb">Top / bottom 3D</option>
-                </select>
-              </label>
-              <label class="field">Field of view <span id="fovValue">75°</span>
-                <input id="fov" type="range" min="45" max="110" value="75" step="1">
-              </label>
-              <label class="field">Motion smoothing <span id="smoothValue">Medium</span>
-                <input id="smooth" type="range" min="0" max="100" value="60" step="1">
-              </label>
-            </div>
-            <div class="headset-footer">
-              <div><strong>VR BOX MODE <span aria-hidden="true">↗</span></strong><small>Side-by-side phone headset view. Landscape recommended; optics are not calibrated.</small></div>
-              <button id="enterVr" class="button primary" type="button">Enter VR mode ↗</button>
-            </div>
-          </section>
-        </div>
-      </section>
-
-      <section class="principles section-pad" id="about" aria-labelledby="principles-heading">
-        <div class="section-heading" data-reveal><span class="section-heading__num">03 / EXPLORE RESPONSIBLY</span><span class="section-heading__side">EARLY-STAGE EXPERIMENT</span></div>
-        <div class="principles__layout">
-          <div data-reveal><h2 id="principles-heading">Built to <em>explore.</em><br>Not to pretend.</h2><p>New experiences demand curious minds—and a clear picture of what technology can actually do.</p></div>
-          <div class="principles__facts" data-reveal>
-            <div class="fact"><span class="fact__index">01</span><div><strong>Private by design</strong><p>Local video files stay in your browser. A direct media URL contacts the external host you choose.</p></div><span aria-hidden="true">↗</span></div>
-            <div class="fact"><span class="fact__index">02</span><div><strong>Motion or touch</strong><p>Device orientation varies by browser and hardware. Touch drag remains available when sensors cannot track turns.</p></div><span aria-hidden="true">↗</span></div>
-            <div class="fact"><span class="fact__index">03</span><div><strong>Experimental headset viewing</strong><p>No real eye tracking, optical calibration or guaranteed gyroscope-free yaw. Use briefly and stop if uncomfortable.</p></div><span aria-hidden="true">↗</span></div>
-            <div class="fact"><span class="fact__index">04</span><div><strong>Compatible sources only</strong><p>Use supported video codecs and CORS-enabled direct links. DRM, YouTube pages and unsupported files are not converted.</p></div><span aria-hidden="true">↗</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="next-step section-pad" aria-labelledby="next-title">
-        <div class="next-step__meta" data-reveal><span>04 / WHAT'S NEXT</span><span>ZYBERLANE / CREATIVE TECHNOLOGY COMPANY</span></div>
-        <div data-reveal>
-          <h2 id="next-title">The future is <em>open.</em></h2>
-          <div class="next-step__bottom">
-            <p>This is one working experiment in our larger creative technology journey. Discover the brand and see what we are building next.</p>
-            <div class="next-step__links">
-              <a class="action action--light" href="https://zyberlane.com/" target="_blank" rel="noopener noreferrer"><span class="roll"><span>Explore Zyberlane</span><span aria-hidden="true">Explore Zyberlane</span></span><span class="action__arrow" aria-hidden="true">↗</span></a>
-              
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <footer class="site-footer"><div class="site-footer__top"><a class="footer-brand" href="#top" aria-label="Zyberlane Creative Technology Company XR — back to top"><img class="footer-brand__mark" src="./assets/zyberlane-mark.svg" alt="" width="36" height="36"><span class="footer-brand__identity"><img class="footer-brand__wordmark" src="./assets/zyberlane-wordmark.svg" alt="" width="236" height="26"><span class="footer-brand__descriptor">CREATIVE TECHNOLOGY COMPANY</span></span><span class="footer-brand__division">/ XR</span></a><a href="#top" class="footer-top">BACK TO TOP ↑</a></div><div class="site-footer__bottom"><span>© 2026 ZYBERLANE · BUILT BEYOND BOUNDARIES.</span><span>EXPERIMENTAL · NO ACCOUNT · NO ANALYTICS</span><a href="https://github.com/diluxlane/Zyberlane-XR" target="_blank" rel="noopener noreferrer">SOURCE ↗</a></div></footer>
+    </footer>
   </div>
+
+  <dialog id="linkDialog" class="modal" aria-labelledby="linkTitle" aria-describedby="linkExplanation">
+    <div class="modal__header"><span class="modal__index">ADD VIDEO / 01</span><button type="button" class="modal__close" data-close-dialog="linkDialog" aria-label="Close video link dialog">✕</button></div>
+    <h2 id="linkTitle">Open a video link.</h2>
+    <p id="linkExplanation">Paste a direct HTTPS link to a playable video file, not a YouTube page. The video host must allow browser playback.</p>
+    <label class="field" for="videoUrl">Video URL
+      <input id="videoUrl" type="url" inputmode="url" placeholder="https://example.com/video.mp4" spellcheck="false" autocomplete="off" aria-describedby="linkTip">
+    </label>
+    <p class="field-note" id="linkTip">MP4 and WebM may work when the host supports CORS. Local files usually work more reliably.</p>
+    <p id="linkError" class="field-error" role="alert" hidden></p>
+    <button id="loadUrl" class="primary-button" type="button">Open video <span aria-hidden="true">↗</span></button>
+    <span class="file-name" id="fileName" aria-live="polite">No video selected</span>
+  </dialog>
+
+  <dialog id="settingsDialog" class="modal" aria-labelledby="settingsTitle" aria-describedby="settingsDescription">
+    <div class="modal__header"><span class="modal__index">PREFERENCES / 02</span><button type="button" class="modal__close" data-close-dialog="settingsDialog" aria-label="Close settings">✕</button></div>
+    <h2 id="settingsTitle">Your settings.</h2>
+    <p id="settingsDescription">Only adjust these if your video needs a different format or you want to fine-tune how it feels.</p>
+    <label class="field" for="layout">3D video format
+      <select id="layout">
+        <option value="mono">Standard / 2D</option>
+        <option value="sbs">Side-by-side 3D</option>
+        <option value="tb">Top/bottom 3D</option>
+      </select>
+      <span class="field-note">Use 3D formats only when your original video contains two eye views.</span>
+    </label>
+    <label class="field" for="fov">Field of view <output id="fovValue" for="fov">75°</output>
+      <input id="fov" type="range" min="45" max="110" value="75" step="1">
+    </label>
+    <label class="field" for="smooth">Motion smoothing <output id="smoothValue" for="smooth">Medium</output>
+      <input id="smooth" type="range" min="0" max="100" value="60" step="1">
+    </label>
+    <div class="settings-touch">
+      <span>Touch look-around</span>
+      <button id="touchToggle" class="tool-button" type="button" aria-pressed="true">Touch: ON</button>
+    </div>
+    <details class="diagnostics">
+      <summary>Motion diagnostics <span aria-hidden="true">↗</span></summary>
+      <div class="sensor-state"><span class="sensor-light" id="sensorLight" aria-hidden="true"></span><div><strong id="sensorStatus">Motion not enabled</strong><small id="sensorDetail">Enable motion above and rotate the phone to inspect the readings.</small></div></div>
+      <div class="readings">
+        <div><span>α / HEADING</span><strong id="alpha">—</strong></div>
+        <div><span>β / TILT</span><strong id="beta">—</strong></div>
+        <div><span>γ / ROLL</span><strong id="gamma">—</strong></div>
+      </div>
+    </details>
+    <button type="button" class="primary-button" data-close-dialog="settingsDialog">Back to player <span aria-hidden="true">↗</span></button>
+  </dialog>
+
+  <dialog id="helpDialog" class="modal" aria-labelledby="helpTitle">
+    <div class="modal__header"><span class="modal__index">GET STARTED / 03</span><button type="button" class="modal__close" data-close-dialog="helpDialog" aria-label="Close help">✕</button></div>
+    <h2 id="helpTitle">Watch in three steps.</h2>
+    <ol class="steps">
+      <li><strong>Choose a video.</strong><p>Select a file from your device or enter a direct video link.</p></li>
+      <li><strong>Pick the video type.</strong><p>Normal video for everyday footage. 180° or 360° only for footage recorded in those formats.</p></li>
+      <li><strong>Play and explore.</strong><p>Drag in panoramic mode, or choose Move phone on compatible devices. VR glasses splits the view for a phone viewer.</p></li>
+    </ol>
+    <div class="help-caveat">
+      <strong>Good to know</strong>
+      <p>No real eye tracking, calibrated headset optics, or guaranteed gyro-free head tracking. The phone VR view is not calibrated for specific lenses. Use briefly and stop if uncomfortable.</p>
+      <p>Local video files are not uploaded. A video link connects to the external host you choose.</p>
+    </div>
+    <button type="button" class="primary-button" data-close-dialog="helpDialog">Start watching <span aria-hidden="true">↗</span></button>
+  </dialog>
+
+  <span id="motionHint" class="sr-only">Use supported phone orientation data. Touch drag works without motion sensors.</span>
+  <span id="vrHint" class="sr-only">Shows two views for a phone headset. Video is required before entering headset mode.</span>
+  <noscript><p class="no-script">JavaScript is required to play video in Zyberlane XR. Please enable it to continue.</p></noscript>
   <video id="sourceVideo" playsinline preload="metadata" crossorigin="anonymous"></video>
 </body>
 </html>
