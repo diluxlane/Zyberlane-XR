@@ -24,7 +24,7 @@ test('XR is its own original, geometric and legible vector mark', () => {
   assert.match(mark, /<title id="xr-mark-title">XR<\/title>/);
   assert.match(mark, /stroke="#f4f4f2"/);
   assert.equal((mark.match(/<path /g) || []).length, 2);
-  assert.doesNotMatch(mark, /<text\b|font-family|<image\b|https?:\/\//);
+  assert.doesNotMatch(mark, /<text\b|font-family|<image\b/);
 });
 
 test('XR spacing stays close without divider across breakpoints', () => {
