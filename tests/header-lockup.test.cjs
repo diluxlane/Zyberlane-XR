@@ -20,7 +20,8 @@ test('header uses unchanged parent icon, wordmark and company descriptor', () =>
 });
 
 test('XR is its own original, geometric and legible vector mark', () => {
-  assert.match(mark, /viewBox="0 0 94 60"/);
+  assert.match(mark, /viewBox="0 0 128 60"/);
+  assert.match(mark, /stroke-width="7.5"/);
   assert.match(mark, /<title id="xr-mark-title">XR<\/title>/);
   assert.match(mark, /stroke="#f4f4f2"/);
   assert.equal((mark.match(/<path /g) || []).length, 2);
@@ -28,10 +29,10 @@ test('XR is its own original, geometric and legible vector mark', () => {
 });
 
 test('XR spacing stays close without divider across breakpoints', () => {
-  assert.match(css, /\.brand__xr\{height:34px;[^}]+\}/);
-  assert.match(css, /\.brand__xr\{height:31px;margin-left:-2px\}/);
-  assert.match(css, /\.brand__xr\{height:29px;margin-left:-1px\}/);
-  assert.match(css, /\.brand__xr\{height:27px;margin-left:0\}/);
+  assert.match(css, /\.brand__xr\{height:32px;[^}]*margin-left:-11px\}/);
+  assert.match(css, /\.brand__xr\{height:29px;margin-left:-11px\}/);
+  assert.match(css, /\.brand__xr\{height:27px;margin-left:-8px\}/);
+  assert.match(css, /\.brand__xr\{height:25px;margin-left:-8px\}/);
   assert.doesNotMatch(css, /\.brand__division\{/);
 });
 

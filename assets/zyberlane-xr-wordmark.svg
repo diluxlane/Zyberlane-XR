@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 94 60" role="img" aria-labelledby="xr-mark-title" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 60" role="img" aria-labelledby="xr-mark-title" fill="none">
   <title id="xr-mark-title">XR</title>
-  <g stroke="#f4f4f2" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter">
-    <path d="M6 7 L39 53 M39 7 L6 53"/>
-    <path d="M53 53 V7 H70 C81 7 86 11.5 86 20.5 C86 29.5 81 34 70 34 H53 M70 34 L88 53"/>
+  <g stroke="#f4f4f2" stroke-width="7.5" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M6 9 L58 51 M58 9 L6 51"/>
+    <path d="M77 51 V9 H97 C112 9 122 14.5 122 24 C122 33.5 114 38 97 38 H77 M98 38 L122 51"/>
   </g>
 </svg>

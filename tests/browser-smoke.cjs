@@ -66,9 +66,9 @@ async function main() {
       assert.ok(headerGeometry.brand.right + 3 <= headerGeometry.help.left,
         v.name + ' header brand overlaps Help: ' + JSON.stringify(headerGeometry));
       const xrGap = headerGeometry.xr.left - headerGeometry.word.right;
-      assert.ok(xrGap >= 0 && xrGap <= 15,
+      assert.ok(xrGap >= -0.5 && xrGap <= 4,
         v.name + ' XR is not close-set to wordmark: ' + JSON.stringify(headerGeometry));
-      assert.ok(headerGeometry.xr.height <= headerGeometry.icon.height + 4,
+      assert.ok(headerGeometry.xr.height <= headerGeometry.icon.height,
         v.name + ' XR overpowers original ZL icon: ' + JSON.stringify(headerGeometry));
       assert.equal(metrics.projection,'cinema',v.name+' must default to normal video');
       assert.ok(metrics.documentWidth<=metrics.width+2,v.name+' has horizontal overflow: '+JSON.stringify(metrics));
