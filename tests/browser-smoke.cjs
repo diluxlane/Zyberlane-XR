@@ -46,6 +46,30 @@ async function main() {
           projection:document.querySelector('#projection').value,
           boxes};
       });
+      // Header-only brand change: verify both SVGs load, with no collision
+      // between the unified brand and the existing Help control.
+      await page.locator('.brand__xr').evaluate(img => img.decode());
+      const headerGeometry = await page.evaluate(() => {
+        const rect = selector => {
+          const box = document.querySelector(selector).getBoundingClientRect();
+          return {left:box.left,right:box.right,top:box.top,bottom:box.bottom,
+                  width:box.width,height:box.height};
+        };
+        return {
+          brand:rect('.site-header .brand'),
+          icon:rect('.brand__mark'),
+          word:rect('.brand__wordmark'),
+          xr:rect('.brand__xr'),
+          help:rect('#openHelp')
+        };
+      });
+      assert.ok(headerGeometry.brand.right + 3 <= headerGeometry.help.left,
+        v.name + ' header brand overlaps Help: ' + JSON.stringify(headerGeometry));
+      const xrGap = headerGeometry.xr.left - headerGeometry.word.right;
+      assert.ok(xrGap >= 0 && xrGap <= 15,
+        v.name + ' XR is not close-set to wordmark: ' + JSON.stringify(headerGeometry));
+      assert.ok(headerGeometry.xr.height <= headerGeometry.icon.height + 4,
+        v.name + ' XR overpowers original ZL icon: ' + JSON.stringify(headerGeometry));
       assert.equal(metrics.projection,'cinema',v.name+' must default to normal video');
       assert.ok(metrics.documentWidth<=metrics.width+2,v.name+' has horizontal overflow: '+JSON.stringify(metrics));
       if(v.isMobile && v.name!=='tablet') {
