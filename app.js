@@ -179,9 +179,9 @@ function headingRoute(router,source,alpha,now) {
   const valid=Number.isFinite(alpha);
   if(valid && Number.isFinite(s.last)) {
     const difference=Math.abs(((alpha-s.last+540)%360)-180);
-    if(difference>=.35 && difference<120) s.headingAt=now;
+    if(difference>=.35 && difference<120) {s.headingAt=now;s.last=alpha;} else if(difference>=120)s.last=alpha;
   }
-  if(valid)s.last=alpha;
+  if(valid&&!Number.isFinite(s.last))s.last=alpha;
   s.valid=valid;s.seen=now;
   const current=streams[router.active];
   if(!current || now-current.seen>650 || (!current.valid&&valid) ||
@@ -200,15 +200,42 @@ function leveledDelta(base,current) {
   const h=qFromEuler(0,yaw,0);
   return qNormalize(qMultiply(qMultiply(qMultiply(qInverse(h),current),qInverse(base)),h));
 }
+// Optional Generic Sensor API: native quaternions, converted from Earth Z-up to renderer Y-up.
+function genericOrientation(raw) {
+  const angle=Number.isFinite(screen.orientation?.angle)?screen.orientation.angle:(Number.isFinite(window.orientation)?window.orientation:0);
+  const rad=angle*Math.PI/180;
+  return qNormalize(qMultiply(qMultiply([-Math.SQRT1_2,0,0,Math.SQRT1_2],Array.from(raw)),[0,0,-Math.sin(rad/2),Math.cos(rad/2)]));
+}
+function genericEvent(raw,source) {
+  if(!raw||raw.length!==4||!Array.from(raw).every(Number.isFinite))return null;
+  const q=genericOrientation(raw),f=qRotate(q,[0,0,-1]),r=qRotate(q,[1,0,0]);
+  const alpha=(Math.atan2(-r[2],r[0])*180/Math.PI+360)%360;
+  return {alpha,beta:Math.asin(Math.max(-1,Math.min(1,f[1])))*180/Math.PI,gamma:0,rawQuaternion:q,source};
+}
+function startQuaternionSensors(callback) {
+  const sensors=[];
+  for(const [name,source] of [['RelativeOrientationSensor','sensor-relative'],['AbsoluteOrientationSensor','sensor-absolute']]){
+    const C=window[name];if(typeof C!=='function')continue;
+    try {
+      const s=new C({frequency:60,referenceFrame:'device'});
+      s.addEventListener('reading',()=>{const event=genericEvent(s.quaternion,source);if(event)callback(event);});
+      s.addEventListener('error',()=>{try{s.stop()}catch{}});
+      s.start();sensors.push(s);
+    } catch {}
+  }
+  return ()=>{for(const s of sensors)try{s.stop()}catch{}};
+}
+
 function currentSensorDelta() {
   if(!state.baseQ)return [0,0,0,1];
   return qNormalize(qMultiply(state.sensorOffset||[0,0,0,1],leveledDelta(state.baseQ,state.sensorQ)));
 }
 function handleOrientation(event, absoluteEvent = false) {
+  if (typeof document!=='undefined' && document.hidden) return;
   if (!Number.isFinite(event.beta) || !Number.isFinite(event.gamma)) return;
   const now=performance.now();
   const alpha=Number.isFinite(event.alpha)?event.alpha:(Number.isFinite(event.webkitCompassHeading)?(360-event.webkitCompassHeading)%360:NaN);
-  const source=absoluteEvent||event.absolute?'absolute':'relative';
+  const source=event.source||(absoluteEvent||event.absolute?'absolute':'relative');
   const interrupted=state.sensorReceived&&now-state.lastSensorAt>3500;
   if(interrupted){state.headingRouter=null;state.lastAcceptedAlpha=null;state.alphaSamples=[];}
   if(!state.headingRouter)state.headingRouter={};
@@ -219,9 +246,9 @@ function handleOrientation(event, absoluteEvent = false) {
     state.sensorOffset=currentSensorDelta();state.baseQ=null;state.alphaSamples=[];state.lastAcceptedAlpha=null;
   }
   const value=Number.isFinite(alpha)?alpha:(state.lastAcceptedAlpha??0);
-  state.orientationSource=source;state.gotAbsolute=source==='absolute';state.sensorStale=false;
+  state.orientationSource=source;state.gotAbsolute=source.includes('absolute');state.sensorStale=false;
   if(Number.isFinite(alpha)){state.lastAcceptedAlpha=alpha;state.lastAcceptedAt=now;}
-  state.sensorQ=sensorQuaternion(value,event.beta,event.gamma);
+  state.sensorQ=event.rawQuaternion||sensorQuaternion(value,event.beta,event.gamma);
   state.sensorReceived=true;state.lastSensorAt=now;
   if(!state.baseQ)state.baseQ=state.sensorQ.slice();
   if(Number.isFinite(alpha))state.alphaSamples.push({time:now,angle:alpha});
@@ -242,14 +269,14 @@ async function enableMotion() {
     notify('Motion tracking usually requires HTTPS (or localhost). Deploy to an HTTPS host to test your sensors.', 'warn');
     return;
   }
-  if (!('DeviceOrientationEvent' in window)) {
+  if (!('DeviceOrientationEvent' in window) && !window.RelativeOrientationSensor && !window.AbsoluteOrientationSensor) {
     notify('This browser does not expose DeviceOrientationEvent. Try recent Chrome on Android, or use touch control.', 'warn');
     return;
   }
   if (state.tracking) { notify('Motion listening is already enabled. Rotate your phone and inspect α, β, γ.'); return; }
   try {
     const cls = window.DeviceOrientationEvent;
-    if (typeof cls.requestPermission === 'function') {
+    if (typeof cls?.requestPermission === 'function') {
       let result;
       try { result = await cls.requestPermission(true); }
       catch { result = await cls.requestPermission(); }
@@ -258,6 +285,7 @@ async function enableMotion() {
     state.tracking = true;
     window.addEventListener('deviceorientation', (e)=>handleOrientation(e,false));
     window.addEventListener('deviceorientationabsolute', (e)=>handleOrientation(e,true));
+    state.stopQuaternionSensors=startQuaternionSensors(e=>{if(!document.hidden)handleOrientation(e);});
     $('sensorStatus').textContent = 'Waiting for orientation data…';
     $('sensorLight').className = 'sensor-light warn';
     $('enableMotion').textContent = 'Motion enabled ✓';
@@ -535,3 +563,5 @@ catch(err) {
   updateModeLabel();
   notify(`Immersive viewing is unavailable: ${err.message}. You can still play a normal video using the controls below.`, 'warn');
 }
+window.addEventListener('pagehide',()=>state.stopQuaternionSensors?.());
+window.addEventListener('pageshow',e=>{if(e.persisted&&state.tracking){state.stopQuaternionSensors?.();state.stopQuaternionSensors=startQuaternionSensors(event=>{if(!document.hidden)handleOrientation(event);});}});
